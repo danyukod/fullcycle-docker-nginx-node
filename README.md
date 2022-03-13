@@ -4,7 +4,7 @@
 ## Usage
 
 ### Instalar
-Clone o repositorio na sua maquina com o app, e o dockerfile de cada imagem.
+Clone o repositorio na sua maquina com os diretorios e os respectivos dockerfile de cada imagem.
 
 ### Rodar
 Subir Docker-Compose com o seguinte comando:
