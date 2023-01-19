@@ -1,6 +1,14 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const config = {
+    host: 'db',
+    user: 'root',
+    password: 'root',
+    database: 'nodedb'
+}
+const mysql = require('mysql')
+const connection = mysql.createConnection(config)
 
 app.get('/insert', async (req, res) => {
     await insertPeople(res);
@@ -15,8 +23,7 @@ app.listen(port, () => {
 })
 
 async function selectPeople(res) {
-    const conn = await connect();
-    conn.query('SELECT * FROM people', (err, rows) => {
+    connection.query('SELECT * FROM people', (err, rows) => {
         if (err) res.send(err)
         else{
             res.write('<h1>Full Cycle</h1>')
@@ -29,27 +36,7 @@ async function selectPeople(res) {
 }
 
 async function insertPeople() {
-    const conn = await connect();
     const sqlInsert = `INSERT INTO people(name)
                        values ('Danilo Kodavara')`
-    conn.query(sqlInsert)
-    conn.end()
-}
-
-async function connect() {
-    const config = {
-        host: 'db',
-        user: 'root',
-        password: 'root',
-        database: 'nodedb'
-    }
-
-    if (global.connection && global.connection.state !== 'disconnected')
-        return global.connection;
-
-    const mysql = require("mysql");
-    const connection = await mysql.createConnection(config);
-    console.log("Conectou no MySQL!");
-    global.connection = connection;
-    return connection;
+    connection.query(sqlInsert)
 }
